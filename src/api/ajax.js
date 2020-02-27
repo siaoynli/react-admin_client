@@ -22,7 +22,13 @@ export default function(url, data = {}, type = 'get') {
 
     promise
       .then((response) => {
-        resolve(response);
+        const result = response.data;
+        if (result.status) {
+          message.error(result.msg);
+        } else {
+          //成功
+          resolve(result);
+        }
       })
       .catch((error) => {
         message.error('请求出错了:' + error.message);

@@ -13,6 +13,7 @@ import logo from './images/logo.png';
 
 import { Form, Icon, Input, Button } from 'antd';
 import { reqLogin } from '../../api';
+import { message } from 'antd';
 
 //登录路由组件
 export class Login extends Component {
@@ -32,8 +33,11 @@ export class Login extends Component {
       const { username, password } = values;
 
       // 使用await，所在函数一定要用async
-      const response = await reqLogin(username, password);
-      console.log('请求成功', response.data);
+      await reqLogin(username, password);
+
+      message.success('登录成功!');
+      //跳转
+      this.props.history.replace('/');
     });
   };
 
