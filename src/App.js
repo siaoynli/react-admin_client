@@ -6,21 +6,23 @@
  * @Description:
  */
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
-import { Button, message } from 'antd';
+import Login from './pages/login/login';
+import Admin from './pages/admin/admin';
 
 export class App extends Component {
-  handleClick = () => {
-    message.success('ok');
-  };
-
   render() {
     return (
-      <div>
-        <Button type="primary" onClick={this.handleClick}>
-          Primary
-        </Button>
-      </div>
+      <>
+        <BrowserRouter>
+          {/* 只匹配一个 */}
+          <Switch>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/" component={Admin}></Route>
+          </Switch>
+        </BrowserRouter>
+      </>
     );
   }
 }
