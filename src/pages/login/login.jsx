@@ -7,13 +7,15 @@
  */
 
 import React, { Component } from 'react';
-
+import { Redirect } from 'react-router-dom';
 import './login.less';
 import logo from './images/logo.png';
 
 import { Form, Icon, Input, Button } from 'antd';
 import { reqLogin } from '../../api';
 import { message } from 'antd';
+import storageUtils from '../../utils/storageUtils';
+import memoryUtils from '../../utils/memoryUtils';
 
 //登录路由组件
 export class Login extends Component {
@@ -33,11 +35,12 @@ export class Login extends Component {
       const { username, password } = values;
 
       // 使用await，所在函数一定要用async
-      await reqLogin(username, password);
+      const result = await reqLogin(username, password);
+      storageUtils.saveUser(result.data);
 
       message.success('登录成功!');
-      //跳转
-      this.props.history.replace('/');
+      //跳转  replace 替换先前的路由,push 栈类型，路由存放在先前路由的上面
+      this.props.history.push('/');
     });
   };
 
@@ -67,6 +70,12 @@ export class Login extends Component {
   };
 
   render() {
+    const user = memoryUtils.user;
+
+    if (user) {
+      return <Redirect to="/"></Redirect>;
+    }
+
     const { getFieldDecorator } = this.props.form;
 
     return (

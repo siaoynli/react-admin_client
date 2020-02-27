@@ -7,10 +7,16 @@
  */
 
 import React, { Component } from 'react';
-
+import { Redirect } from 'react-router-dom';
+import memoryUtils from '../../utils/memoryUtils';
 export class Admin extends Component {
   render() {
-    return <div>admin</div>;
+    const user = memoryUtils.user;
+    if (!user || !user._id) {
+      return <Redirect to="/login"></Redirect>;
+    }
+
+    return <div>欢迎您:{user.username}</div>;
   }
 }
 
