@@ -7,9 +7,8 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'antd/dist/antd.less';
 
 import App from './App';
 
-import './App.less';
-
-ReactDOM.render(<App></App>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
