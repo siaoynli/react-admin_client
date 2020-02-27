@@ -11,31 +11,40 @@ import React, { Component } from 'react';
 import './login.less';
 import logo from './images/logo.png';
 
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
+import { reqLogin } from '../../api';
 
 //登录路由组件
 export class Login extends Component {
+  componentDidMount() {
+    // To disable submit button at the beginning.
+    // this.props.form.validateFields();
+  }
+
   handleSubmit = (e) => {
     //阻止默认表单提交
     e.preventDefault();
-    //得到form对象
-    const form = this.props.form;
+    //对表单所有字段进行验证
+    this.props.form.validateFields(async (err, values) => {
+      if (err) {
+        return;
+      }
+      const { username, password } = values;
 
-    this.props.form.validateFields((err, values) => {});
-
-    //得到输入数据
-    const values = form.getFieldsValue();
-
-    console.log(values);
+      // 使用await，所在函数一定要用async
+      const response = await reqLogin(username, password);
+      console.log('请求成功', response.data);
+    });
   };
+
   //自定义校验规则
   validatorPassword = (rule, value, callback) => {
     if (!value) {
       callback('请输入密码');
     }
 
-    if (value.length <= 6) {
-      callback('密码长度不能小于6位');
+    if (value.length <= 3) {
+      callback('密码长度不能小于3位');
     }
 
     if (value.length > 30) {
@@ -54,12 +63,7 @@ export class Login extends Component {
   };
 
   render() {
-    const {
-      getFieldDecorator,
-      getFieldsError,
-      getFieldError,
-      isFieldTouched
-    } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <div className="login">
@@ -108,11 +112,10 @@ export class Login extends Component {
                     }
                   ]
                 })(
-                  <Input
+                  <Input.Password
                     prefix={
                       <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
                     }
-                    type="password"
                     placeholder="密码"
                   />
                 )}
@@ -127,6 +130,7 @@ export class Login extends Component {
                 </Button>
               </Form.Item>
             </Form>
+            <h3>杭州网版权所有 </h3>
           </div>
         </section>
       </div>
