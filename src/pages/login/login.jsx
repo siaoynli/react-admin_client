@@ -36,11 +36,14 @@ export class Login extends Component {
 
       // 使用await，所在函数一定要用async
       const result = await reqLogin(username, password);
+
+      //用户数据保存到localstorage 和内存
       storageUtils.saveUser(result.data);
+      memoryUtils.user = result.data;
 
       message.success('登录成功!');
       //跳转  replace 替换先前的路由,push 栈类型，路由存放在先前路由的上面
-      this.props.history.push('/');
+      this.props.history.replace('/');
     });
   };
 
