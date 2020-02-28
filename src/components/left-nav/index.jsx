@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import { Menu, Icon } from 'antd'
 
@@ -42,8 +42,17 @@ export class LeftNav extends Component {
   }
   //reduce 递归生成菜单
   getMenuNodes = (menuList) => {
+    const path = this.props.location.pathname
+
     return menuList.reduce((prev, item) => {
       if (item.children) {
+        //查找与当前请求路径匹配的子Item
+        const cItem = item.children.find((cItem) => cItem.key === path)
+
+        if (cItem !== undefined) {
+          this.openKey = item.key
+        }
+
         prev.push(
           <SubMenu
             key={item.key}
@@ -70,8 +79,16 @@ export class LeftNav extends Component {
       return prev
     }, [])
   }
+  //在render之前执行
+  componentWillMount() {
+    this.openKey = ''
+    this.menuNodes = this.getMenuNodes(menuList)
+  }
 
   render() {
+    const path = this.props.location.pathname
+    const openKey = this.openKey
+
     return (
       <div>
         <div className="left-nav">
@@ -80,12 +97,19 @@ export class LeftNav extends Component {
             <h1>后台系统</h1>
           </Link>
         </div>
-        <Menu mode="inline" theme="dark" defaultSelectedKeys={['/home']}>
-          {this.getMenuNodes(menuList)}
+        <Menu
+          mode="inline"
+          theme="dark"
+          // defaultSelectedKeys={[path]}
+          selectedKeys={[path]}
+          defaultOpenKeys={[openKey]}
+        >
+          {this.menuNodes}
         </Menu>
       </div>
     )
   }
 }
 
-export default LeftNav
+//非路由组件需要获取props，需要用withRouterG高阶组件
+export default withRouter(LeftNav)
