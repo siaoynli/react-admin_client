@@ -16,8 +16,6 @@ import memoryUtils from '../../utils/memoryUtils'
 import LeftNav from '../../components/left-nav'
 import Header from '../../components/header'
 
-import menuList from '../../config/menuConfig'
-
 import Home from '../home/home'
 import Product from '../product/product'
 import Category from '../category/category'

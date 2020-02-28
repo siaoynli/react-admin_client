@@ -1,5 +1,4 @@
-const menuList = [
-  {
+const menuList = [{
     title: '仪表盘', // 菜单标题名称
     key: '/home', // 对应的path
     icon: 'home', // 图标名称
@@ -39,8 +38,7 @@ const menuList = [
     title: '图形图表',
     key: '/charts',
     icon: 'area-chart',
-    children: [
-      {
+    children: [{
         title: '柱形图',
         key: '/charts/bar',
         icon: 'bar-chart'

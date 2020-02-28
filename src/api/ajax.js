@@ -7,9 +7,11 @@
  */
 
 import axios from 'axios';
-import { message } from 'antd';
+import {
+  message
+} from 'antd';
 
-export default function(url, data = {}, type = 'get') {
+export default function (url, data = {}, type = 'get') {
   return new Promise((resolve, reject) => {
     let promise;
     switch (type.toLowerCase()) {
@@ -17,7 +19,9 @@ export default function(url, data = {}, type = 'get') {
         promise = axios.post(url, data);
         break;
       default:
-        promise = axios.get(url, { params: data });
+        promise = axios.get(url, {
+          params: data
+        });
     }
 
     promise
