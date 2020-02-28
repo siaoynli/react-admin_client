@@ -6,16 +6,16 @@
  * @Description:
  */
 
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import './login.less';
-import logo from './images/logo.png';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import './login.less'
+import logo from '../../assets/images/logo.png'
 
-import { Form, Icon, Input, Button } from 'antd';
-import { reqLogin } from '../../api';
-import { message } from 'antd';
-import storageUtils from '../../utils/storageUtils';
-import memoryUtils from '../../utils/memoryUtils';
+import { Form, Icon, Input, Button } from 'antd'
+import { reqLogin } from '../../api'
+import { message } from 'antd'
+import storageUtils from '../../utils/storageUtils'
+import memoryUtils from '../../utils/memoryUtils'
 
 //登录路由组件
 export class Login extends Component {
@@ -26,60 +26,60 @@ export class Login extends Component {
 
   handleSubmit = (e) => {
     //阻止默认表单提交
-    e.preventDefault();
+    e.preventDefault()
     //对表单所有字段进行验证
     this.props.form.validateFields(async (err, values) => {
       if (err) {
-        return;
+        return
       }
-      const { username, password } = values;
+      const { username, password } = values
 
       // 使用await，所在函数一定要用async
-      const result = await reqLogin(username, password);
+      const result = await reqLogin(username, password)
 
       //用户数据保存到localstorage 和内存
-      storageUtils.saveUser(result.data);
-      memoryUtils.user = result.data;
+      storageUtils.saveUser(result.data)
+      memoryUtils.user = result.data
 
-      message.success('登录成功!');
+      message.success('登录成功!')
       //跳转  replace 替换先前的路由,push 栈类型，路由存放在先前路由的上面
-      this.props.history.replace('/');
-    });
-  };
+      this.props.history.replace('/')
+    })
+  }
 
   //自定义校验规则
   validatorPassword = (rule, value, callback) => {
     if (!value) {
-      callback('请输入密码');
+      callback('请输入密码')
     }
 
     if (value.length <= 3) {
-      callback('密码长度不能小于3位');
+      callback('密码长度不能小于3位')
     }
 
     if (value.length > 30) {
-      callback('密码长度不能大于30位');
+      callback('密码长度不能大于30位')
     }
 
     if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      callback('密码为字母数字下划线');
+      callback('密码为字母数字下划线')
     }
 
     if (value === '123456') {
-      callback('密码太简单');
+      callback('密码太简单')
     } else {
-      callback();
+      callback()
     }
-  };
+  }
 
   render() {
-    const user = memoryUtils.user;
+    const user = memoryUtils.user
 
-    if (user) {
-      return <Redirect to="/"></Redirect>;
+    if (user && user._id) {
+      return <Redirect to="/"></Redirect>
     }
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
 
     return (
       <div className="login">
@@ -150,11 +150,11 @@ export class Login extends Component {
           </div>
         </section>
       </div>
-    );
+    )
   }
 }
 
 //create  返回一个函数，返回一个新组件
-const LoginForm = Form.create({ name: 'admin_login' })(Login);
+const LoginForm = Form.create({ name: 'admin_login' })(Login)
 
-export default LoginForm;
+export default LoginForm
