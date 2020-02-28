@@ -25,6 +25,20 @@ export const reqLogin = (username, password) =>
 export const reqAddUser = (user) =>
   ajax(URL + '/manage/user/add', user, 'post');
 
+//获取分类列表
+export const reqCategories = (parentId = 0) =>
+  ajax(URL + '/manage/category/list', {
+    parentId
+  });
+
+//添加分类
+export const reqAddCategory = (category) =>
+  ajax(URL + '/manage/category/add', category, "post");
+
+//更新分类
+export const reqUpdateCategory = (category) =>
+  ajax(URL + '/manage/category/update', category, "post");
+
 
 
 

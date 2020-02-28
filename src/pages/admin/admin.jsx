@@ -42,7 +42,7 @@ export class Admin extends Component {
         <Layout>
           <Header></Header>
 
-          <Content style={{ backgroundColor: '#dedede' }}>
+          <Content style={{ backgroundColor: '#dedede', padding: '20px' }}>
             <Switch>
               <Route path="/home" component={Home}></Route>
               <Route path="/user" component={User}></Route>
