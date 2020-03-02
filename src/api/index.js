@@ -32,12 +32,24 @@ export const reqCategories = (parentId = 0) =>
   });
 
 //添加分类
-export const reqAddCategory = (category) =>
-  ajax(URL + '/manage/category/add', category, "post");
+export const reqAddCategory = ({
+    categoryName,
+    parentId
+  }) =>
+  ajax(URL + '/manage/category/add', {
+    categoryName,
+    parentId
+  }, "post");
 
 //更新分类
-export const reqUpdateCategory = (category) =>
-  ajax(URL + '/manage/category/update', category, "post");
+export const reqUpdateCategory = ({
+    categoryId,
+    categoryName
+  }) =>
+  ajax(URL + '/manage/category/update', {
+    categoryId,
+    categoryName
+  }, "post");
 
 
 

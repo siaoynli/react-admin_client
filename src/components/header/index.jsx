@@ -50,6 +50,7 @@ export class Header extends Component {
           title = cItem.title
         }
       }
+      return ''
     })
     return title
   }
