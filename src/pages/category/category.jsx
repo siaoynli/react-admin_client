@@ -16,12 +16,12 @@ export class Category extends Component {
     showStatus: 0 //1显示添加，2显示更新
   }
 
-  getCategories = async () => {
+  getCategories = async (parentId) => {
     this.setState({
       loading: true
     })
 
-    const parentId = this.state.parentId
+    parentId = parentId || this.state.parentId
 
     const result = await reqCategories(parentId)
 
@@ -114,7 +114,13 @@ export class Category extends Component {
     if (result.status === 0) {
       //清除表单数据缓存
       this.form.resetFields()
-      this.getCategories()
+      if (parentId === this.state.parentId) {
+        this.getCategories()
+      } else if (parentId === '0') {
+        //在二级目录添加一级
+        this.getCategories('0')
+      }
+
       this.setState({
         showStatus: 0
       })
