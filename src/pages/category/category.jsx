@@ -79,8 +79,6 @@ export class Category extends Component {
     ]
   }
 
-  delete = (category) => {}
-
   showSubCategories = (category) => {
     this.setState(
       {
@@ -109,41 +107,51 @@ export class Category extends Component {
     })
   }
 
-  addCategory = async () => {
-    const { parentId, categoryName } = this.form.getFieldsValue()
-
-    const result = await reqAddCategory({ parentId, categoryName })
-
-    if (result.status === 0) {
-      //清除表单数据缓存
-      this.form.resetFields()
-      if (parentId === this.state.parentId) {
-        this.getCategories()
-      } else if (parentId === '0') {
-        //在二级目录添加一级
-        this.getCategories('0')
+  addCategory = () => {
+    this.form.validateFields(async (err, values) => {
+      if (err) {
+        return
       }
+      const { parentId, categoryName } = values
 
-      this.setState({
-        showStatus: 0
-      })
-    }
+      const result = await reqAddCategory({ parentId, categoryName })
+
+      if (result.status === 0) {
+        //清除表单数据缓存
+        this.form.resetFields()
+        if (parentId === this.state.parentId) {
+          this.getCategories()
+        } else if (parentId === '0') {
+          //在二级目录添加一级
+          this.getCategories('0')
+        }
+
+        this.setState({
+          showStatus: 0
+        })
+      }
+    })
   }
 
-  updateCategory = async () => {
-    const categoryId = this.category._id
-    const categoryName = this.form.getFieldValue('categoryName')
+  updateCategory = () => {
+    this.form.validateFields(async (err, values) => {
+      if (err) {
+        return
+      }
+      const categoryId = this.category._id
+      const categoryName = this.form.getFieldValue('categoryName')
 
-    const result = await reqUpdateCategory({ categoryId, categoryName })
+      const result = await reqUpdateCategory({ categoryId, categoryName })
 
-    if (result.status === 0) {
-      //清除表单数据缓存
-      this.form.resetFields()
-      this.getCategories()
-      this.setState({
-        showStatus: 0
-      })
-    }
+      if (result.status === 0) {
+        //清除表单数据缓存
+        this.form.resetFields()
+        this.getCategories()
+        this.setState({
+          showStatus: 0
+        })
+      }
+    })
   }
 
   showCategories = () => {
