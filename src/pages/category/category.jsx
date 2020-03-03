@@ -6,6 +6,7 @@ import LinkButton from '../../components/link-button'
 import './category.less'
 import AddForm from './add-form'
 import UpdateForm from './update-form'
+
 export class Category extends Component {
   state = {
     categories: [],
@@ -77,6 +78,8 @@ export class Category extends Component {
       }
     ]
   }
+
+  delete = (category) => {}
 
   showSubCategories = (category) => {
     this.setState(
