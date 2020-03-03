@@ -51,7 +51,24 @@ export const reqUpdateCategory = ({
     categoryName
   }, "post");
 
+//获取商品分页列表
+export const reqProducts = (pageNum, pageSize) => ajax(URL + '/manage/product/list', {
+  pageNum,
+  pageSize
+});
 
+
+//搜索商品分页列表
+export const reqSearchProducts = ({
+  pageNum,
+  pageSize,
+  searchName,
+  searchType = "productName"
+}) => ajax(URL + '/manage/product/search', {
+  pageNum,
+  pageSize,
+  [searchType]: searchName, //searchType作为属性名
+});
 
 
 export const reqWeather = (city = "杭州") => {
